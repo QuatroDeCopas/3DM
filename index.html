@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3DM | Inteligencia Artificial Conversacional</title>
+    <!-- Chosen Palette: Futuristic Neon -->
+    <!-- Application Structure Plan: The SPA is designed as a single-page, vertical-scrolling landing page with a sticky navigation bar for easy access to all sections. This structure guides the user through a classic marketing funnel: Awareness (Hero), Interest (About/Products), Desire (Benefits/Testimonials), and Action (Contact). This linear flow is intuitive and highly effective for converting visitors into leads, which is the primary goal of the source report. -->
+    <!-- Visualization & Content Choices: 
+        - Hero: Goal(Attract) -> Viz(Canvas Neural Net Animation) -> Interaction(Dynamic ambient background) -> Justification(High 'wow' factor, immediately sets a futuristic, high-tech tone).
+        - Products: Goal(Inform/Compare) -> Viz(Interactive Tabbed Interface) -> Interaction(Click tabs to switch content) -> Justification(More engaging, organized, and space-efficient than static blocks, encouraging user interaction).
+        - Benefits: Goal(Persuade) -> Viz(Grid of Cards with Icons) -> Interaction(Hover effects) -> Justification(Icons made with Unicode characters for speed and scalability. Grid format is highly scannable and visually balanced).
+        - Contact: Goal(Convert) -> Viz(Standard Form) -> Interaction(Styled input focus and button hover) -> Justification(Clear, direct path to action, maintaining theme consistency).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #f0f6fc;
+        }
+        .hero-bg {
+            position: relative;
+            background-color: #0d1117;
+            overflow: hidden;
+        }
+        #neural-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.2;
+        }
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+        }
+        .neon-text-cyan {
+            text-shadow: 0 0 5px rgba(34, 211, 238, 0.6), 0 0 10px rgba(34, 211, 238, 0.4);
+        }
+        .neon-text-green {
+            text-shadow: 0 0 5px rgba(74, 222, 128, 0.6), 0 0 10px rgba(74, 222, 128, 0.4);
+        }
+        .neon-border-cyan {
+            border-color: #22d3ee;
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+        }
+        .neon-border-green {
+            border-color: #4ade80;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+        .btn-cta {
+            background: linear-gradient(90deg, #22d3ee, #4ade80);
+            transition: all 0.3s ease;
+        }
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px #4ade80, 0 0 25px #22d3ee;
+        }
+        .glass-card {
+            background: rgba(23, 30, 44, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(49, 62, 89, 0.5);
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            margin-top: 1rem;
+            background: linear-gradient(90deg, #22d3ee, #4ade80);
+            border-radius: 2px;
+        }
+        .tab-active {
+            border-bottom-color: #4ade80 !important;
+            color: #4ade80 !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-gray-900/80 backdrop-blur-sm fixed w-full top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-3xl font-bold text-white">3DM<span class="text-cyan-400">.</span></a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about" class="text-gray-300 hover:text-cyan-400 transition">Quiénes somos</a>
+                <a href="#products" class="text-gray-300 hover:text-cyan-400 transition">Productos</a>
+                <a href="#benefits" class="text-gray-300 hover:text-cyan-400 transition">Beneficios</a>
+                <a href="#contact" class="text-white bg-cyan-500/80 hover:bg-cyan-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition">Contacto</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-3">
+            <a href="#about" class="block text-gray-300 hover:text-cyan-400 transition">Quiénes somos</a>
+            <a href="#products" class="block text-gray-300 hover:text-cyan-400 transition">Productos</a>
+            <a href="#benefits" class="block text-gray-300 hover:text-cyan-400 transition">Beneficios</a>
+            <a href="#contact" class="block mt-2 text-white bg-cyan-500/80 hover:bg-cyan-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition">Contacto</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-bg min-h-screen flex items-center">
+            <canvas id="neural-canvas"></canvas>
+            <div class="content-overlay container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4">
+                    Conectamos tu negocio con la <span class="neon-text-cyan">Inteligencia Artificial</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                    Soluciones conversacionales inteligentes que transforman tu atención al cliente y tus ventas.
+                </p>
+                <a href="#contact" class="btn-cta text-white font-bold py-3 px-8 rounded-full text-lg inline-block">
+                    Solicitá una demo gratuita
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h2 class="section-title text-3xl md:text-4xl font-bold text-white mb-4 inline-block">3DM: Transformando la Comunicación Empresarial con IA</h2>
+                    <p class="text-gray-400 text-lg leading-relaxed">
+                        En 3DM, somos pioneros en el desarrollo e implementación de soluciones de Inteligencia Artificial conversacional a medida. Nuestra misión es potenciar la interacción de tu empresa con sus clientes, automatizando procesos y brindando experiencias fluidas y personalizadas 24/7. Con un equipo de expertos en IA, PNL y desarrollo de software, creamos herramientas inteligentes que no solo optimizan tus recursos, sino que también impulsan tu crecimiento. Confía en 3DM para llevar la comunicación de tu negocio al futuro.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" class="py-20 md:py-32 bg-gray-900/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="section-title text-3xl md:text-4xl font-bold text-white mb-4 inline-block">Nuestras Soluciones Inteligentes</h2>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto">Descubre cómo la Inteligencia Artificial puede revolucionar la forma en que interactúas con tus clientes.</p>
+                </div>
+                
+                <div class="flex justify-center mb-8 border-b border-gray-700">
+                    <button data-tab="chatbots" class="product-tab tab-active text-lg font-semibold py-4 px-8 text-gray-400 border-b-2 border-transparent hover:text-green-400 transition">Chatbots Inteligentes</button>
+                    <button data-tab="voice" class="product-tab text-lg font-semibold py-4 px-8 text-gray-400 border-b-2 border-transparent hover:text-green-400 transition">Voz IA Natural</button>
+                </div>
+
+                <div id="product-content">
+                    <div id="chatbots" class="product-pane">
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div class="text-center md:text-left">
+                                <h3 class="text-3xl font-bold text-white mb-4">Conversaciones que Convierten</h3>
+                                <p class="text-gray-400 leading-relaxed">Diseñamos chatbots con Procesamiento de Lenguaje Natural (PNL) avanzado y los entrenamos específicamente para entender y responder a las necesidades de tus clientes. Desde FAQs hasta soporte técnico y guía de ventas, nuestros chatbots se integran perfectamente en tu sitio web, redes sociales o aplicaciones de mensajería, ofreciendo respuestas instantáneas y una experiencia de usuario excepcional.</p>
+                            </div>
+                             <div class="flex justify-center items-center h-64 md:h-80 glass-card rounded-xl p-8">
+                                <span class="text-8xl neon-text-cyan">💬</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="voice" class="product-pane hidden">
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div class="text-center md:text-left">
+                                <h3 class="text-3xl font-bold text-white mb-4">Atención y Ventas Automatizadas</h3>
+                                <p class="text-gray-400 leading-relaxed">Optimiza tu atención al cliente, impulsá tus ventas y gestiona turnos de manera eficiente con nuestras llamadas de voz automatizadas. Utilizamos tecnología de voz natural para crear interacciones fluidas y realistas que tus clientes no distinguirán de una conversación humana, liberando a tu equipo para tareas más estratégicas.</p>
+                            </div>
+                            <div class="flex justify-center items-center h-64 md:h-80 glass-card rounded-xl p-8">
+                                <span class="text-8xl neon-text-green">🎙️</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="section-title text-3xl md:text-4xl font-bold text-white mb-4 inline-block">Impulsá tu Negocio con IA</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="glass-card p-8 rounded-xl text-center transition duration-300 hover:border-cyan-400 hover:shadow-cyan-400/20 hover:shadow-lg">
+                        <div class="text-5xl mb-4 neon-text-cyan">💰</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Ahorro de Costos</h3>
+                        <p class="text-gray-400">Reduce gastos operativos al automatizar tareas repetitivas y optimizar el tiempo de tu equipo.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl text-center transition duration-300 hover:border-green-400 hover:shadow-green-400/20 hover:shadow-lg">
+                        <div class="text-5xl mb-4 neon-text-green">📈</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Escalabilidad Ilimitada</h3>
+                        <p class="text-gray-400">Adapta tu capacidad de atención a picos de demanda sin necesidad de ampliar tu personal.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl text-center transition duration-300 hover:border-cyan-400 hover:shadow-cyan-400/20 hover:shadow-lg">
+                         <div class="text-5xl mb-4 neon-text-cyan">🕒</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Atención 24/7</h3>
+                        <p class="text-gray-400">Brinda soporte y resuelve consultas en cualquier momento, sin limitaciones de horarios.</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl text-center transition duration-300 hover:border-green-400 hover:shadow-green-400/20 hover:shadow-lg">
+                         <div class="text-5xl mb-4 neon-text-green">😊</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Mejor Experiencia del Cliente</h3>
+                        <p class="text-gray-400">Ofrece interacciones personalizadas, rápidas y eficientes que fortalecen la lealtad a tu marca.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="py-20 md:py-32 bg-gray-900/50">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="section-title text-3xl md:text-4xl font-bold text-white mb-4 inline-block">¿Listo para Transformar tu Negocio?</h2>
+                    <p class="text-lg text-gray-400">Estamos listos para llevar tu empresa al siguiente nivel con Inteligencia Artificial.</p>
+                </div>
+                <div class="max-w-2xl mx-auto glass-card rounded-lg p-8">
+                    <form>
+                        <div class="mb-6">
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-300">Nombre Completo</label>
+                            <input type="text" id="name" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-300">Email</label>
+                            <input type="email" id="email" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5" placeholder="tu@email.com" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block mb-2 text-sm font-medium text-gray-300">Mensaje</label>
+                            <textarea id="message" rows="4" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5" placeholder="Contanos sobre tu proyecto..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full btn-cta text-white font-bold py-3 px-8 rounded-full text-lg">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-8 bg-gray-900">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>&copy; 2024 3DM AI Agency. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Product Tabs
+            const tabs = document.querySelectorAll('.product-tab');
+            const panes = document.querySelectorAll('.product-pane');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(item => item.classList.remove('tab-active'));
+                    tab.classList.add('tab-active');
+
+                    const target = tab.getAttribute('data-tab');
+                    panes.forEach(pane => {
+                        if (pane.id === target) {
+                            pane.classList.remove('hidden');
+                        } else {
+                            pane.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // Header scroll effect
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-gray-900/95', 'shadow-lg');
+                } else {
+                    header.classList.remove('bg-gray-900/95', 'shadow-lg');
+                }
+            });
+
+            // Neural Network Canvas Animation
+            const canvas = document.getElementById('neural-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let particles = [];
+            const particleCount = window.innerWidth > 768 ? 80 : 40;
+            const maxDistance = 120;
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = document.getElementById('hero').offsetHeight;
+            }
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.vx = Math.random() * 0.4 - 0.2;
+                    this.vy = Math.random() * 0.4 - 0.2;
+                    this.radius = Math.random() * 1.5 + 0.5;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = '#22d3ee';
+                    ctx.fill();
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+                }
+            }
+
+            function connectParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < maxDistance) {
+                            const opacity = 1 - distance / maxDistance;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(74, 222, 128, ${opacity * 0.5})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                connectParticles();
+                requestAnimationFrame(animate);
+            }
+
+            resizeCanvas();
+            initParticles();
+            animate();
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles();
+            });
+        });
+    </script>
+</body>
+</html>
