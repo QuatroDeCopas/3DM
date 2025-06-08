@@ -82,13 +82,19 @@
             border-bottom-color: #4ade80 !important;
             color: #4ade80 !important;
         }
+        .logo-img {
+            height: 40px; /* Adjust as needed */
+            width: auto;
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <header id="header" class="bg-gray-900/80 backdrop-blur-sm fixed w-full top-0 z-50 transition-all duration-300">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#hero" class="text-3xl font-bold text-white">3DM<span class="text-cyan-400">.</span></a>
+            <a href="#hero" class="text-3xl font-bold text-white">
+                <img src="/logo.jpg" alt="3DM AI Agency Logo" class="logo-img" onerror="this.onerror=null;this.src='https://placehold.co/100x40/0d1117/f0f6fc?text=3DM';"/>
+            </a>
             <div class="hidden md:flex space-x-8 items-center">
                 <a href="#about" class="text-gray-300 hover:text-cyan-400 transition">Quiénes somos</a>
                 <a href="#products" class="text-gray-300 hover:text-cyan-400 transition">Productos</a>
