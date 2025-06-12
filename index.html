@@ -12,6 +12,14 @@
         - Benefits: Goal(Persuade) -> Viz(Grid of Cards with Icons) -> Interaction(Hover effects) -> Justification(Icons made with Unicode characters for speed and scalability. Grid format is highly scannable and visually balanced).
         - Contact: Goal(Convert) -> Viz(Standard Form) -> Interaction(Styled input focus and button hover) -> Justification(Clear, direct path to action, maintaining theme consistency).
     -->
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <script type="module">
+    	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    
+    	createChat({
+    		webhookUrl: 'YOUR_PRODUCTION_WEBHOOK_URL'
+    	});
+    </script>
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
