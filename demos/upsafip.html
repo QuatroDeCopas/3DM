@@ -7,10 +7,31 @@
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
     <script type="module">
     	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-    
-    	createChat({
-    		webhookUrl: 'https://primary-production-6d4b.up.railway.app/webhook/27a44be8-154c-43ed-b424-9b8e1171e453/chat'
-    	});
+        createChat({
+        	webhookUrl: 'https://primary-production-6d4b.up.railway.app/webhook/27a44be8-154c-43ed-b424-9b8e1171e453/chat'
+        	webhookConfig: {
+        		method: 'POST',
+        		headers: {}
+        	},
+        	target: '#n8n-chat',
+        	mode: 'window',
+        	chatInputKey: 'chatInput',
+        	chatSessionKey: 'sessionId',
+        	metadata: {},
+        	showWelcomeScreen: false,
+        	defaultLanguage: 'en',
+        	initialMessages: [
+        		'Hola! 👋'        	],
+        	i18n: {
+        		en: {
+        			title: 'Hola! 👋',
+        			subtitle: "",
+        			footer: '',
+        			getStarted: 'New Conversation',
+        			inputPlaceholder: 'Escribe tu pregunta...',
+        		},
+        	},
+        });
     </script>
     <style>
         * {
