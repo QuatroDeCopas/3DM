@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UPSAFIP - Unión del Personal Superior de AFIP</title>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <script type="module">
+    	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    
+    	createChat({
+    		webhookUrl: 'https://primary-production-6d4b.up.railway.app/webhook/27a44be8-154c-43ed-b424-9b8e1171e453/chat'
+    	});
+    </script>
     <style>
         * {
             margin: 0;
