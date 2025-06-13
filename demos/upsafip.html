@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UPSAFIP - Unión del Personal Superior de AFIP</title>
-    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-    <script type="module">
-    	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-        createChat({
-        	webhookUrl: 'https://primary-production-6d4b.up.railway.app/webhook/27a44be8-154c-43ed-b424-9b8e1171e453/chat'
-    	});
+    <!-- Widget Configuration -->
+    <script>
+        window.ChatWidgetConfig = {
+            webhook: {
+                url: 'https://primary-production-6d4b.up.railway.app/webhook/27a44be8-154c-43ed-b424-9b8e1171e453/chat',
+                route: 'general'
+            },
+            branding: {
+                logo: '/images/logo.jpeg',
+                name: 'UPSAfip', // Your company name
+                welcomeText: 'Hola , como puedo ayudarte?', //Welcome message
+                responseTimeText: 'respondemos rapidamente' //Response time message
+            },
+            style: {
+                primaryColor: '#854fff', //Primary color
+                secondaryColor: '#6b3fd4', //Secondary color
+                position: 'right', //Position of the widget (left or right)
+                backgroundColor: '#ffffff', //Background color of the chat widget
+                fontColor: '#333333' //Text color for messages and interface
+            }
+        };
     </script>
+    <script src="https://nocodeveloper.com/chat.js"></script>
+    <!-- Widget Script -->
+
     <style>
         * {
             margin: 0;
