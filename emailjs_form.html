@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Agregar EmailJS antes del </head> -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <script>
+        // Inicializar EmailJS con tu Public Key
+        emailjs.init('user_TU_PUBLIC_KEY'); // Reemplaza con tu Public Key
+
+        // En tu función de envío del formulario:
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Mostrar estado de carga
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+            formMessage.classList.add('hidden');
+
+            // Recoger datos del formulario
+            const formData = new FormData(contactForm);
+            const templateParams = {
+                from_name: formData.get('name'),
+                from_email: formData.get('email'),
+                company: formData.get('company') || 'No especificada',
+                phone: formData.get('phone') || 'No especificado',
+                message: formData.get('message')
+            };
+
+            try {
+                // Enviar email usando EmailJS
+                await emailjs.send(
+                    'service_TU_SERVICE_ID',    // Reemplaza con tu Service ID
+                    'template_TU_TEMPLATE_ID',  // Reemplaza con tu Template ID
+                    templateParams
+                );
+
+                showMessage('¡Mensaje enviado exitosamente! Te contactaremos pronto.', 'success');
+                contactForm.reset();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.', 'error');
+            }
+
+            // Restaurar estado del botón
+            submitBtn.disabled = false;
+            btnText.classList.remove('hidden');
+            btnLoading.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>

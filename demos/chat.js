@@ -179,6 +179,43 @@
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             }
 
+            /* Estilos específicos para imágenes en mensajes */
+            .n8n-chat-widget .chat-message img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                margin: 8px 0;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+
+            .n8n-chat-widget .chat-message img:hover {
+                transform: scale(1.02);
+            }
+
+            /* Modal para vista ampliada de imágenes */
+            .n8n-chat-widget .image-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 10000;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+
+            .n8n-chat-widget .image-modal img {
+                max-width: 90%;
+                max-height: 90%;
+                border-radius: 8px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
             .n8n-chat-widget .chat-input {
                 padding: 16px;
                 background: var(--chat--color-background);
@@ -383,8 +420,14 @@
                 <path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.5 21.5l4.5-.838A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.476 0-2.886-.313-4.156-.878l-3.156.586.586-3.156A7.962 7.962 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
             </svg>`;
         
+        // Create image modal
+        const imageModal = document.createElement('div');
+        imageModal.className = 'image-modal';
+        imageModal.innerHTML = '<img src="" alt="Enlarged image">';
+        
         widgetContainer.appendChild(chatContainer);
         widgetContainer.appendChild(toggleButton);
+        widgetContainer.appendChild(imageModal);
         
         // Verificar que document.body existe antes de agregar el widget
         if (document.body) {
@@ -399,6 +442,114 @@
         const messagesContainer = chatContainer.querySelector('.chat-messages');
         const textarea = chatContainer.querySelector('textarea');
         const sendButton = chatContainer.querySelector('button[type="submit"]');
+
+        // Función para sanitizar HTML y permitir solo etiquetas seguras
+        function sanitizeHTML(html) {
+            // Lista de etiquetas permitidas
+            const allowedTags = ['img', 'br', 'p', 'div', 'span', 'strong', 'em', 'b', 'i', 'u', 'a'];
+            const allowedAttributes = {
+                'img': ['src', 'alt', 'title', 'width', 'height'],
+                'a': ['href', 'title', 'target']
+            };
+
+            // Crear un elemento temporal para parsing
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+
+            // Función recursiva para limpiar nodos
+            function cleanNode(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    return node.textContent;
+                }
+
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    const tagName = node.tagName.toLowerCase();
+                    
+                    if (!allowedTags.includes(tagName)) {
+                        // Si la etiqueta no está permitida, devolver solo el contenido de texto
+                        return node.textContent;
+                    }
+
+                    // Crear nuevo elemento limpio
+                    const cleanElement = document.createElement(tagName);
+                    
+                    // Copiar solo atributos permitidos
+                    if (allowedAttributes[tagName]) {
+                        Array.from(node.attributes).forEach(attr => {
+                            if (allowedAttributes[tagName].includes(attr.name)) {
+                                cleanElement.setAttribute(attr.name, attr.value);
+                            }
+                        });
+                    }
+
+                    // Procesar hijos recursivamente
+                    Array.from(node.childNodes).forEach(child => {
+                        const cleanChild = cleanNode(child);
+                        if (typeof cleanChild === 'string') {
+                            cleanElement.appendChild(document.createTextNode(cleanChild));
+                        } else {
+                            cleanElement.appendChild(cleanChild);
+                        }
+                    });
+
+                    return cleanElement;
+                }
+
+                return '';
+            }
+
+            // Limpiar y reconstruir el contenido
+            const cleanDiv = document.createElement('div');
+            Array.from(tempDiv.childNodes).forEach(child => {
+                const cleanChild = cleanNode(child);
+                if (typeof cleanChild === 'string') {
+                    cleanDiv.appendChild(document.createTextNode(cleanChild));
+                } else {
+                    cleanDiv.appendChild(cleanChild);
+                }
+            });
+
+            return cleanDiv.innerHTML;
+        }
+
+        // Función para crear mensaje con soporte para HTML
+        function createBotMessage(content) {
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'chat-message bot';
+            
+            // Sanitizar y establecer contenido HTML
+            const sanitizedContent = sanitizeHTML(content);
+            botMessageDiv.innerHTML = sanitizedContent;
+            
+            // Agregar event listeners para imágenes
+            const images = botMessageDiv.querySelectorAll('img');
+            images.forEach(img => {
+                // Agregar funcionalidad de clic para ampliar imagen
+                img.addEventListener('click', function() {
+                    const modalImg = imageModal.querySelector('img');
+                    modalImg.src = this.src;
+                    modalImg.alt = this.alt || 'Imagen ampliada';
+                    imageModal.style.display = 'flex';
+                });
+
+                // Manejar errores de carga de imagen
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    const errorText = document.createElement('span');
+                    errorText.textContent = '[Imagen no disponible]';
+                    errorText.style.color = '#999';
+                    errorText.style.fontStyle = 'italic';
+                    this.parentNode.insertBefore(errorText, this.nextSibling);
+                });
+            });
+            
+            return botMessageDiv;
+        }
+
+        // Event listener para cerrar modal de imagen
+        imageModal.addEventListener('click', function() {
+            this.style.display = 'none';
+        });
 
         function generateUUID() {
             return crypto.randomUUID();
@@ -429,9 +580,8 @@
                 chatContainer.querySelector('.new-conversation').style.display = 'none';
                 chatInterface.classList.add('active');
 
-                const botMessageDiv = document.createElement('div');
-                botMessageDiv.className = 'chat-message bot';
-                botMessageDiv.textContent = Array.isArray(responseData) ? responseData[0].output : responseData.output;
+                const content = Array.isArray(responseData) ? responseData[0].output : responseData.output;
+                const botMessageDiv = createBotMessage(content);
                 messagesContainer.appendChild(botMessageDiv);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             } catch (error) {
@@ -467,9 +617,8 @@
                 
                 const data = await response.json();
                 
-                const botMessageDiv = document.createElement('div');
-                botMessageDiv.className = 'chat-message bot';
-                botMessageDiv.textContent = Array.isArray(data) ? data[0].output : data.output;
+                const content = Array.isArray(data) ? data[0].output : data.output;
+                const botMessageDiv = createBotMessage(content);
                 messagesContainer.appendChild(botMessageDiv);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             } catch (error) {
